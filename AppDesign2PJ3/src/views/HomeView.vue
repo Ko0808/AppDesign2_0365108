@@ -11,7 +11,7 @@ const specialOffers = ref([
 </script>
 
 <template>
-   
+  <div class="home-view-container">
     <section class="ticket-section">
     <h2>Flight Ticket</h2>
     <div class="ticket-card">
@@ -58,48 +58,17 @@ const specialOffers = ref([
         </div>
     </div>
     </section>
+  </div>
 </template>
 
 <style scoped>
-/* 基本的なスタイルリセットとフォント設定 */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  
-}
-
-/* アプリ全体のコンテナ */
-.app-container {
-  max-width: 480px; /* スマホ画面をシミュレート */
-  margin: auto;
-  background-color: #f4f6f8;
-  min-height: 100vh;
-  position: relative;
-  padding-bottom: 80px; /* ボトムナビゲーションの高さ分 */
-}
-
-/* ヘッダー */
-.app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background-color: #015878; /* 画像から抽出したテーマカラー */
-  color: white;
+.home-view-container {
+  width: 100%;
 }
 .header-logo {
   height: 24px;
 }
 
-/* メインコンテンツ */
-.app-content {
-  padding: 1rem;
-}
 h2 {
   font-size: 1.2rem;
   margin-bottom: 0rem;
@@ -209,77 +178,6 @@ h2 {
 .offer-details h3 { font-size: 1.1rem; }
 .offer-details p { font-size: 0.9rem; }
 
-/* ボトムナビゲーション */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  max-width: 400px;
-  margin: auto;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background-color: white;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-  height: 70px; /* 少し高さを確保 */
-  padding: 5px 0; /* 上下のパディング */
-  background-color: #F7F3E7;
-}
 
-.nav-item {
-  display: flex; /* Flexboxを有効にする */
-  flex-direction: column; /* 要素を縦に並べる */
-  align-items: center; /* 水平方向の中央揃え */
-  justify-content: center; /* 垂直方向の中央揃え */
-  flex: 1; /* 各アイテムが均等に幅を持つようにする */
-  font-size: 1rem;
-  color: #555;
-  cursor: pointer;
-  height: 100%;
-}
-
-/* 通常のアイコンのスタイル */
-.nav-icon {
-  width: 32px;
-  height: 32px;
-  margin-bottom: 4px; /* アイコンと文字の間のスペース */
-  fill: #166987; /* 塗りはなし */
-  stroke: #166987; /* 線の色を指定 */
-  stroke-width: 3;
-}
-
-/* Bookingボタンの特別スタイル */
-.booking {
-  transform: translateY(-20px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 1rem;
-}
-.booking-logo {
-  max-width: 100%; /* コンテナの幅を超えないようにする */
-  max-height: 100%; /* コンテナの高さを超えないようにする */
-}
-
-.booking-logo-container {
-  height: 50px;
-  width: 50px;
-  flex-shrink: 0; /* ★ これを追加: 親要素のflex設定で縮まないようにする */
-  background-color: white;
-  border-radius: 10px;
-  padding: 5px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  margin-bottom: 4px;
-  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #166987;
-}
-
-.booking span {
-  margin-top: 8px; /* Bookingのロゴと文字の間のスペース */
-}
 
 </style>

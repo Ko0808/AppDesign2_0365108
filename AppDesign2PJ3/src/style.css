@@ -1,0 +1,80 @@
+/* src/style.css */
+
+/* :root はアプリケーション全体で使える「変数」を定義する場所です */
+:root {
+  /* フォントの基本設定 (Viteのデフォルトを維持) */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* --- ▼▼▼ アプリケーションの設計変数をここに集約 ▼▼▼ --- */
+  --app-max-width: 480px;
+  /* アプリの最大幅 */
+  --app-horizontal-padding: 1.5rem;
+  /* アプリの左右の余白 */
+
+  /* テーマカラー */
+  --primary-color: #005d6a;
+  --text-color-light: #ffffff;
+  --text-color-dark: #213547;
+  --background-color: #f4f6f8;
+  --footer-background-color: #F7F3E7;
+  /* --- ▲▲▲ ここまで ▲▲▲ --- */
+
+  /* デフォルトの文字色と背景色を変数で指定 */
+  color: var(--text-color-dark);
+  background-color: var(--background-color);
+
+  /* 文字の描画を最適化 (Viteのデフォルトを維持) */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* PCのOSがダークモードに設定されている場合のスタイル。
+  今は特に変更しませんが、将来的にダークモード用の配色にしたい場合は
+  ここの変数の値を上書きします。
+*/
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* 例えば、ダークモードでは背景を濃く、文字を白くする場合 */
+    /*
+    --background-color: #242424;
+    --text-color-dark: rgba(255, 255, 255, 0.87);
+    */
+  }
+}
+
+/* bodyのスタイルをシンプルに修正 */
+body {
+  margin: 0;
+  /* アプリの外側の背景色。PCで見た時に左右の余白部分の色になります */
+  background-color: #dcdcdc;
+  padding-top: 2rem;
+  /* ヘッダーの高さ分の余白を確保 */
+  padding-bottom: 2rem;
+  /* フッターの高さ分の余白を確保 */
+}
+
+/* Viteデフォルトの#appのスタイルは、我々の.app-containerとは役割が違うため不要です。
+  スタイルはApp.vueの.app-containerで管理します。
+*/
+#app {
+  /* ここは空でOK */
+}
+
+/* リンクやボタンの基本的なスタイルは残しておいても良いでしょう */
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+button {
+  cursor: pointer;
+}

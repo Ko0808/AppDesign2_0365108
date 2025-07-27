@@ -45,6 +45,42 @@ const routes = [
         component: () => import('../views/PaymentView.vue'),
         meta: { showFooter: true } // このページでもフッターを表示
     },
+    {
+        path: '/confirmation',
+        name: 'confirmation',
+        component: () => import('../views/ConfirmationView.vue'),
+        meta: { showFooter: true } // このページでもフッターを表示
+    },
+    {
+        path: '/my-page',
+        name: 'my-page',
+        component: () => import('../views/MyPageView.vue'),
+        meta: { showFooter: true } // このページでもフッターを表示
+    },
+    {
+        path: '/help-tools',
+        name: 'help-tools',
+        component: () => import('../views/HelpToolsView.vue'),
+        meta: { showFooter: true } // このページでもフッターを表示
+    },
+    {
+        path: '/miles-calculator',
+        name: 'miles-calculator',
+        component: () => import('../views/MilesCalculatorView.vue'),
+        meta: { showFooter: true } // このページでもフッターを表示
+    },
+    {
+        path: '/airport-map',
+        name: 'airport-map',
+        component: () => import('../views/AirportMapView.vue'),
+        meta: { showFooter: true } // このページでもフッターを表示
+    },
+    {
+        path: '/settings',
+        name: 'settings',
+        component: () => import('../views/SettingsView.vue'),
+        meta: { showFooter: false } // 設定ページではフッターを非表示
+    },
 ]
 
 

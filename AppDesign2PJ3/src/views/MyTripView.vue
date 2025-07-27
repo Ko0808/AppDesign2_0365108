@@ -64,7 +64,6 @@
     font-weight: 500;
     margin-bottom: 1.5rem;
     margin-left: -0.5rem; 
-    text-align: center;
     }
     .trip-tabs {
     display: flex;

@@ -34,6 +34,7 @@ defineProps({
   border-radius: 0.75rem;
   margin-bottom: 1.3rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin-top: 10%;
 }
 .card-header {
   padding: 0.75rem 1rem;

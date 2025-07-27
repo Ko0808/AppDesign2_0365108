@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 // 支払い方法タブの状態管理
 const activePaymentTab = ref('credit-card');
@@ -15,6 +18,9 @@ const selectedInsurance = ref('no_insurance'); // 初期値は'No Insurance'
 
 // 利用規約の同意状態を管理
 const termsAccepted = ref(false);
+const processPayment = () => {
+  router.push('/confirmation'); 
+};
 </script>
 
 <template>
@@ -90,7 +96,7 @@ const termsAccepted = ref(false);
       </label>
     </div>
 
-    <button class="pay-button" :disabled="!termsAccepted">
+    <button class="pay-button" :disabled="!termsAccepted" @click="processPayment">
       Pay
     </button>
   </div>
@@ -135,6 +141,7 @@ h2 { font-size: 1.2rem; margin-bottom: 1rem; }
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 0.5rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
 /* 保険セクション */

@@ -41,33 +41,33 @@ defineProps({
         cursor: pointer;
     }
     .icon {
-    color: #888;
-    margin-right: 0.75rem;
+        color: #888;
+        margin-right: 0.75rem;
     }
     .text-content {
-    display: flex;
-    flex-direction: column;
+        display: flex;
+        flex-direction: column;
     }
     .label {
-    font-size: 1rem;
-    color: #888;
+        font-size: 1rem;
+        color: #888;
     }
     .value {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #333;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #333;
     }
 
-    /* ★★★ 非活性状態のスタイルを追加 ★★★ */
+    /*  非活性状態のスタイルを追加  */
     .selector-box:disabled {
-    background-color: #f5f5f5; /* 背景をグレーに */
-    cursor: not-allowed; /* カーソルを変更 */
+        background-color: #f5f5f5; /* 背景をグレーに */
+        cursor: not-allowed; /* カーソルを変更 */
     }
 
     /* 非活性の時は、中の文字やアイコンの色も薄くする */
     .selector-box:disabled .icon,
     .selector-box:disabled .label,
     .selector-box:disabled .value {
-    color: #bbb;
+        color: #bbb;
     }
 </style>

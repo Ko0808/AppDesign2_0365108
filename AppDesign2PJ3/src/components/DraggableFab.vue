@@ -1,118 +1,107 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onUnmounted, watch } from 'vue';
+
+const props = defineProps({
+  isExpanded: Boolean
+});
+const emit = defineEmits(['close']);
 
 const fabRef = ref(null);
-const position = ref({ top: 80, left: 80 });
+const position = ref({ 
+  top: window.innerHeight - 120, 
+  left: window.innerWidth - 80 
+});
 const isDragging = ref(false);
 const offset = ref({ x: 0, y: 0 });
 
-// ドラッグ開始処理
+// --- Draggable Logic (変更なし) ---
 const onDragStart = (event) => {
+  if (props.isExpanded) return;
   isDragging.value = true;
-  
   const clientX = event.type === 'touchstart' ? event.touches[0].clientX : event.clientX;
   const clientY = event.type === 'touchstart' ? event.touches[0].clientY : event.clientY;
-  
   const fabElement = fabRef.value;
   if (fabElement) {
     const rect = fabElement.getBoundingClientRect();
     offset.value.x = clientX - rect.left;
     offset.value.y = clientY - rect.top;
   }
-
   window.addEventListener('mousemove', onDragMove);
   window.addEventListener('mouseup', onDragEnd);
   window.addEventListener('touchmove', onDragMove, { passive: false });
   window.addEventListener('touchend', onDragEnd);
 };
 
-// ドラッグ中の移動処理（ドラッグ範囲の制限を追加）
 const onDragMove = (event) => {
   if (!isDragging.value) return;
   event.preventDefault();
-
   const fabElement = fabRef.value;
-  // 親コンテナ(.app-container)の矩形情報を取得
-  const parentElement = fabElement.closest('.app-container');
+  const parentElement = document.querySelector('.app-container');
   if (!fabElement || !parentElement) return;
-
   const parentRect = parentElement.getBoundingClientRect();
   const fabRect = fabElement.getBoundingClientRect();
-  
   const clientX = event.type === 'touchmove' ? event.touches[0].clientX : event.clientX;
   const clientY = event.type === 'touchmove' ? event.touches[0].clientY : event.clientY;
-
   let newLeft = clientX - offset.value.x;
   let newTop = clientY - offset.value.y;
-
-  // 親コンテナの境界内に位置を制限
   newLeft = Math.max(parentRect.left, Math.min(newLeft, parentRect.right - fabRect.width));
   newTop = Math.max(parentRect.top, Math.min(newTop, parentRect.bottom - fabRect.height));
-
-  // %単位に変換して位置を更新
-  position.value = {
-    top: (newTop / window.innerHeight) * 100,
-    left: (newLeft / window.innerWidth) * 100
-  };
+  position.value = { top: newTop, left: newLeft };
 };
 
-// ドラッグ終了処理（画面の端に吸着する機能を追加）
 const onDragEnd = () => {
   if (!isDragging.value) return;
   isDragging.value = false;
-  
   const fabElement = fabRef.value;
-  const parentElement = fabElement.closest('.app-container');
+  const parentElement = document.querySelector('.app-container');
   if (!fabElement || !parentElement) return;
-
   const fabRect = fabElement.getBoundingClientRect();
   const parentRect = parentElement.getBoundingClientRect();
-  
   const fabCenter = fabRect.left + fabRect.width / 2;
   const parentCenter = parentRect.left + parentRect.width / 2;
-
   let newLeft;
   if (fabCenter < parentCenter) {
-    // 左半分の場合は左端にくっつく
-    newLeft = parentRect.left;
+    newLeft = parentRect.left + 20;
   } else {
-    // 右半分の場合は右端にくっつく
-    newLeft = parentRect.right - fabRect.width;
+    newLeft = parentRect.right - fabRect.width - 20;
   }
-
-  // transitionを一時的に追加してアニメーションさせる
-  fabElement.style.transition = 'left 0.3s ease-out, top 0.3s ease-out';
-  
-  position.value.left = (newLeft / window.innerWidth) * 100;
-  
-  // アニメーションが終わったらtransitionを削除
+  fabElement.style.transition = 'left 0.3s ease-out';
+  position.value.left = newLeft;
   setTimeout(() => {
     if(fabElement) fabElement.style.transition = '';
   }, 300);
-
-  // イベントリスナーの削除
   window.removeEventListener('mousemove', onDragMove);
   window.removeEventListener('mouseup', onDragEnd);
   window.removeEventListener('touchmove', onDragMove);
   window.removeEventListener('touchend', onDragEnd);
 };
 
-// コンポーネントが破棄される時にもリスナーを削除
 onUnmounted(() => {
-  onDragEnd(); 
+  onDragEnd();
 });
 </script>
 
 <template>
-  <div 
-    ref="fabRef"
-    class="draggable-fab"
-    :class="{ 'is-dragging': isDragging }"
-    :style="{ top: position.top + '%', left: position.left + '%' }"
-    @mousedown.prevent="onDragStart"
-    @touchstart.prevent="onDragStart"
-  >
-    <slot></slot>
+  <div>
+    <div 
+      v-if="isExpanded" 
+      class="overlay" 
+      @click="emit('close')"
+    ></div>
+
+    <div 
+      ref="fabRef"
+      class="draggable-fab"
+      :class="{ 
+        'is-dragging': isDragging, 
+        'expanded': isExpanded
+      }"
+      :style="isExpanded ? {} : { top: position.top + 'px', left: position.left + 'px' }"
+      @mousedown="onDragStart"
+      @touchstart="onDragStart"
+    >
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -124,38 +113,92 @@ onUnmounted(() => {
   user-select: none;
   touch-action: none;
   
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  
+  transition: width 0.4s cubic-bezier(0.6, 0, 0.2, 1), 
+              height 0.4s cubic-bezier(0.6, 0, 0.2, 1), 
+              border-radius 0.4s cubic-bezier(0.6, 0, 0.2, 1), 
+              transform 0.4s cubic-bezier(0.6, 0, 0.2, 1),
+              top 0.4s cubic-bezier(0.6, 0, 0.2, 1),
+              left 0.4s cubic-bezier(0.6, 0, 0.2, 1),
+              background-color 0.2s ease-in-out 0.2s;
+
   width: 60px;
   height: 60px;
   border-radius: 50%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   background-color: var(--primary-color, #005d6a);
-
-  /* 中のコンテンツ（アイコン）を中央に配置 */
+  
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; /* 中身がはみ出ないように */
 }
 
 .draggable-fab.is-dragging {
   cursor: grabbing;
-  transform: scale(1.1); /* ドラッグ中は少し大きくする */
+  transform: scale(1.1);
 }
 
 .draggable-fab.expanded {
-  width: 90%; /* 親コンテナの90%まで広がる */
-  max-width: 380px; /* ただし最大幅は設ける */
-  height: 70vh; /* 画面の高さの70% */
-  max-height: 500px;
-  border-radius: 1rem; /* 角丸の長方形に */
-  cursor: default; /* カーソルを通常に戻す */
-  
-  /* 位置を画面の右下に再配置 */
-  left: auto !important; /* !importantでインラインスタイルを上書き */
-  right: 5%;
-  top: auto !important;
-  bottom: 5%;
+  width: 90%;
+  max-width: 480px;
+  height: 80vh;
+  max-height: 600px;
+  border-radius: 1rem;
+  cursor: default;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  background-color: white;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 1999;
+  /* フェードインアニメーション */
+  animation: fade-in 0.4s ease-in-out;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* --- Slot Content Styling --- */
+
+/* By default, hide the chat window and show the icon */
+::v-deep .chat-window {
+  position: absolute; /* Take out of flex flow */
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+::v-deep .chat-icon {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  display: flex; /* Ensure icon is centered */
+  align-items: center;
+  justify-content: center;
+}
+
+/* When expanded, show the chat window and hide the icon */
+.draggable-fab.expanded ::v-deep .chat-window {
+  opacity: 1;
+  transform: scale(1);
+  transition-delay: 0.15s; /* Delay appearance */
+  pointer-events: auto;
+}
+
+.draggable-fab.expanded ::v-deep .chat-icon {
+  opacity: 0;
+  pointer-events: none;
 }
 
 </style>

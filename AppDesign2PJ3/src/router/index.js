@@ -81,6 +81,42 @@ const routes = [
         component: () => import('../views/SettingsView.vue'),
         meta: { showFooter: false } // 設定ページではフッターを非表示
     },
+    {
+        path: '/check-in',
+        name: 'check-in',
+        component: () => import('../views/CheckInView.vue'),
+        meta: { showFooter: true } // フッターを表示
+    },
+    {
+        path: '/prohibited-items',
+        name: 'prohibited-items',
+        component: () => import('../views/ProhibitedItemsView.vue'),
+        meta: { showFooter: true } // フッターを表示
+    },
+    {
+        path: '/personal-info',
+        name: 'personal-info',
+        component: () => import('../views/PersonalInfoView.vue'),
+        meta: { showFooter: true } // フッターを表示
+    },
+    {
+        path: '/seat-selection',
+        name: 'seat-selection',
+        component: () => import('../views/SeatSelectionView.vue'),
+        meta: { showFooter: true } // フッターを表示
+    },
+    {
+        path: '/check-in-success',
+        name: 'check-in-success',
+        component: () => import('../views/CheckInSuccessView.vue'),
+        meta: { showFooter: true } // フッターを表示
+    },
+    {
+        path: '/flight-status',
+        name: 'flight-status',
+        component: () => import('../views/FlightStatusView.vue'),
+        meta: { showFooter: true } // フッターを表示
+    },
 ]
 
 

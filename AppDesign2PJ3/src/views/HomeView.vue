@@ -1,49 +1,56 @@
 <script setup>
 import { ref } from 'vue';
+import BottomSheet from '../components/BottomSheet.vue';
+import BoardingPass from '../components/BoardingPass.vue';
 
-// 「Special Offer」セクションのデータを配列として用意
-// 本来はサーバーから取得するデータ
+
+const isTicketModalOpen = ref(false);
+
 const specialOffers = ref([
-  { id: 1, city: 'Kuala Lumpur', price: 'RM1000', image: 'https://placehold.co/300x200/666/white?text=Kuala+Lumpur' },
-  { id: 2, city: 'Hanoi', price: 'RM1000', image: 'https://placehold.co/300x200/555/white?text=Hanoi' },
-  { id: 3, city: 'Ho Chi Minh', price: 'RM1000', image: 'https://placehold.co/300x200/444/white?text=Ho+Chi+Minh' },
+  { id: 1, city: 'Kuala Lumpur', price: 'RM1000', image: '/src/image/KualaLumur.jpg' },
+  { id: 2, city: 'Hanoi', price: 'RM1000', image: '/src/image/Hanoi.jpeg' },
+  { id: 3, city: 'Ho Chi Minh', price: 'RM1000', image: '/src/image/HoChiMinh.png' },
 ]);
 </script>
 
 <template>
   <div class="home-view-container">
     <section class="ticket-section">
-    <h2>Flight Ticket</h2>
-    <div class="ticket-card">
-        <div class="ticket-info">
-        <span class="flight-number">VN000</span>
-        <span class="passenger-name">Mr. Kou Obata</span>
-        </div>
-        <div class="flight-details">
-        <div class="location">
-            <span class="airport-code">KUL</span>
-            <span class="date-time">01JUN2024 00:00</span>
-        </div>
-        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#015878">
-            <path d="M283.33-80v-88.67L406-254v-162.67L80-285.33v-108L406-622v-184q0-30.33 21.83-52.17Q449.67-880 480-880q30.33 0 52.17 21.83Q554-836.33 554-806v184l326 228.67v108L554-416.67V-254l122 85.33V-80l-196-59.33L283.33-80Z" transform="rotate(90, 480, -480)"/>
-        </svg>
-        <div class="location">
-            <span class="airport-code">KUL</span>
-            <span class="date-time">01JUN2024 00:00</span>
-        </div>
-        </div>
-    </div>
+      <h2>Flight Ticket</h2>
+      <div class="ticket-card" @click="isTicketModalOpen = true">
+          <div class="ticket-info">
+            <span class="flight-number">VN000</span>
+            <span class="passenger-name">Mr. Kou Obata</span>
+            </div>
+            <div class="flight-details">
+            <div class="location">
+                <span class="airport-code">KUL</span>
+                <span class="date-time">01JUN2024 00:00</span>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#015878">
+                <path d="M283.33-80v-88.67L406-254v-162.67L80-285.33v-108L406-622v-184q0-30.33 21.83-52.17Q449.67-880 480-880q30.33 0 52.17 21.83Q554-836.33 554-806v184l326 228.67v108L554-416.67V-254l122 85.33V-80l-196-59.33L283.33-80Z" transform="rotate(90, 480, -480)"/>
+            </svg>
+            <div class="location">
+                <span class="airport-code">KUL</span>
+                <span class="date-time">01JUN2024 00:00</span>
+            </div>
+          </div>
+      </div>
+      <BottomSheet :is-open="isTicketModalOpen" @close="isTicketModalOpen = false">
+          <BoardingPass />
+        </BottomSheet>
     </section>
 
-    <section class="action-buttons">
-    <button class="action-btn">
-        <svg width="85" height="85" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-        <span>Flight Status</span>
-    </button>
-    <button class="action-btn">
-        <svg width="85" height="85" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
-        <span>Check-in</span>
-    </button>
+      <section class="action-buttons">
+       
+      <router-link to="/flight-status" class="action-btn"> 
+          <svg width="85" height="85" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>Flight Status</span>
+      </router-link>
+      <router-link to="/check-in" class="action-btn">
+      <svg width="85" height="85" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+      <span>Check-in</span>
+      </router-link>
     </section>
 
     <section class="special-offer-section">
@@ -159,10 +166,9 @@ h2 {
   border-radius: 12px;
   overflow: hidden;
   color: white;
-  height: 95%;
 }
 .offer-image {
-  width: auto;
+  width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;

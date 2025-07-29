@@ -2,7 +2,14 @@
   <div class="chat-window" @click.stop>
     <div class="chat-header">
       <span>Chat</span>
-      <button @click="$emit('close')" class="close-btn">&times;</button>
+      <button
+        @mousedown.prevent
+        @click="$emit('close')"
+        @touchend="$emit('close')"
+        class="close-btn"
+      >
+        &times;
+      </button>
     </div>
     <div class="chat-body">
       <div class="message-bubble received">Do you need help?</div>
@@ -37,7 +44,16 @@ defineEmits(['close']);
   border-bottom: 1px solid #eee;
   font-weight: bold;
 }
-.close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+.close-btn {
+  background: none; 
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer; 
+  padding: 0.5rem; /* クリック領域を広げる */
+  line-height: 1; /* 高さを揃える */
+  width: 40px;    /* 幅を固定 */
+  height: 40px;   /* 高さを固定 */
+}
 .chat-body {
   flex-grow: 1;
   padding: 1rem;

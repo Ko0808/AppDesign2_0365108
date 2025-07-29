@@ -5,10 +5,16 @@ import TheBottomNav from './components/TheBottomNav.vue';
 
 <template>
   <div class="app-container">
-    <TheHeader /> <main class="app-content">
-      <router-view />
+    <TheHeader />
+    <main class="app-content">
+      <router-view v-slot="{ Component, route }">
+        <Transition name="fade" mode="out-in">
+          <div :key="route.path">
+            <component :is="Component" />
+          </div>
+        </Transition>
+      </router-view>
     </main>
-
     <TheBottomNav v-if="$route.meta.showFooter" />
   </div>
 </template>
@@ -45,4 +51,15 @@ import TheBottomNav from './components/TheBottomNav.vue';
   padding-right: 1.5rem;      /* 左右の余白を追加 */
   width: 100%;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 </style>

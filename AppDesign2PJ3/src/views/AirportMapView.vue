@@ -12,7 +12,7 @@ const router = useRouter();
       <span class="title">Kuala Lumpur Intl Airport (KUL)</span>
     </div>
     <div class="map-container">
-      <img src="../assets/airport-map-placeholder.png" alt="Airport Map">
+      <img src="../image/backgroundSky.jpg" alt="Airport Map">
     </div>
   </div>
 </template>

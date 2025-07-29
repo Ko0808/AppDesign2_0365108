@@ -8,20 +8,27 @@
     import AirportSearch from '../components/AirportSearch.vue';
     import DatePicker from '../components/DatePicker.vue';
     import PassengerStepper from '../components/PassengerStepper.vue';
-
+    import GearLoading from '../components/GearLoading.vue';
+    
     // 'round' or 'oneway' のどちらがアクティブかを管理
     const tripType = ref('round');
     const isRoundTrip = computed(() => tripType.value === 'round');
 
+    const isLoading = ref(false);
     const router = useRouter();
     const isAirportModalOpen = ref(false);
     const isDateModalOpen = ref(false);
     const adults = ref(1);
     const children = ref(0);
 
-    const searchFlights = () => {       
-        router.push('/flights'); // ★ /flightsページにプログラムで遷移させる
+    const searchFlights = () => {
+      isLoading.value = true;
+      setTimeout(() => {
+        isLoading.value = false;
+        router.push('/flights');
+      }, 3000);
     };
+
 </script>
 
 <template>
@@ -74,9 +81,8 @@
       <input type="text" placeholder="Enter promo code">
     </div>
 
-    <button class="search-button" @click="searchFlights">
-      Search
-    </button>
+    <button class="search-button" @click="searchFlights">Search</button>
+    <GearLoading v-if="isLoading" />
 
     <BottomSheet :is-open="isAirportModalOpen" @close="isAirportModalOpen = false">
       <AirportSearch />

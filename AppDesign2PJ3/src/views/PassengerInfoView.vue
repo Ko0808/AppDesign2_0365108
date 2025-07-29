@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import BookingSummaryBar from '../components/BookingSummaryBar.vue';
 import { useRouter } from 'vue-router';
 
@@ -14,10 +14,19 @@ const confirmEmail = ref('');
 const countryCode = ref('');
 const phoneNumber = ref('');
 
+const isNextEnabled = computed(() => {
+  return (
+    firstName.value.trim() !== '' &&
+    lastName.value.trim() !== '' &&
+    nationality.value.trim() !== '' &&
+    passportNumber.value.trim() !== ''
+  );
+});
+
 const router = useRouter();
 const goToPayment = () => {
-  // ここで入力内容のチェックなどを行う
-  router.push('/payment'); // ★ /paymentページに遷移
+  if (!isNextEnabled.value) return;
+  router.push('/payment');
 };
 </script>
 
@@ -75,7 +84,13 @@ const goToPayment = () => {
         </div>
       </section>
 
-       <button class="next-button" @click="goToPayment">Next</button>
+      <button 
+        class="next-button"
+        :disabled="!isNextEnabled"
+        @click="goToPayment"
+      >
+          Next
+      </button>
     </form>
   </div>
 </template>
@@ -95,14 +110,20 @@ const goToPayment = () => {
     background-color: #fff;
     }
     .next-button {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: white;
-    background-color: var(--primary-color, #005d6a);
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: white;
+      background-color: var(--primary-color, #005d6a); /* ★ デフォルトを活性色に */
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+    /* ★ .activeセレクタを:disabledセレクタに変更 */
+    .next-button:disabled {
+        background-color: #6c757d; /* 非活性時の色 */
+        cursor: not-allowed;
     }
 </style>

@@ -37,18 +37,18 @@ const closeMenu = () => {
         <ul>
           <li><router-link to="/" @click="closeMenu">Home</router-link></li>
           <li><router-link to="/my-trip" @click="closeMenu">My Trip</router-link></li>
-          <li><router-link to="#" @click="closeMenu">Booking</router-link></li>
+          <li><router-link to="/booking" @click="closeMenu">Booking</router-link></li>
           <li><router-link to="/my-page" @click="closeMenu">My Page</router-link></li>
           <li class="divider"></li>
-          <li><router-link to="#" @click="closeMenu">Boarding Pass</router-link></li>
-          <li><router-link to="#" @click="closeMenu">Flight Status</router-link></li>
-          <li><router-link to="#" @click="closeMenu">Check-in</router-link></li>
+          <li><router-link to="/boarding-pass" @click="closeMenu">Boarding Pass</router-link></li>
+          <li><router-link to="/flight-status" @click="closeMenu">Flight Status</router-link></li>
+          <li><router-link to="/check-in" @click="closeMenu">Check-in</router-link></li>
           <li class="divider"></li>
-          <li><router-link to="#" @click="closeMenu">Miles Calculator</router-link></li>
-          <li><router-link to="#" @click="closeMenu">Airport Map</router-link></li>
-          <li><router-link to="#" @click="closeMenu">Route Map</router-link></li>
+          <li><router-link to="/miles-calculator" @click="closeMenu">Miles Calculator</router-link></li>
+          <li><router-link to="/airport-map" @click="closeMenu">Airport Map</router-link></li>
+          <li><router-link to="/route-map" @click="closeMenu">Route Map</router-link></li>
           <li class="divider"></li>
-          <li><router-link to="#" @click="closeMenu">Tools</router-link></li>
+          <li><router-link to="/tools" @click="closeMenu">Tools</router-link></li>
           <li><router-link to="/settings" @click="closeMenu">Setting</router-link></li>
         </ul>
       </nav>
